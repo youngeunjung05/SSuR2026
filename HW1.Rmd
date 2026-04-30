@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Guideline
 
 -   `###` : 예제 제목
--   `####` : 학번 및 이름
+-   `####`: 학번과 이름
 -   그 아래는 자유롭게 구성 (설명 / 코드 / 그림 등)
 -   아래 이미 생성되어 있는 예제처럼 작성하면 된다.
 
@@ -30,6 +30,29 @@ sum(x * y)
 
 ```{r}
 t(x) %*% y
+```
+
+### Correlation and Linear Relationship Analysis
+
+#### 학번 : 22410439 / 이름 : 박동희
+
+두 개의 변수 데이터를 생성한 뒤, 상관계수를 계산하여 두 변수 간의 선형 관계와 산점도 확인하기
+
+```{r}
+
+set.seed(123)
+x <- rnorm(100)
+y <- 2*x + rnorm(100)
+```
+
+```{r}
+
+cor(x, y)
+
+plot(x, y, main="Scatter Plot of x and y", col="darkgreen")
+
+model <- lm(y ~ x)
+abline(model, col="red", lwd=2)
 ```
 
 ### 동전을 10번 던졌을 때 앞면이 나오는 횟수 1000번 시뮬레이션하고, 평균 계산
@@ -63,22 +86,6 @@ text(mean_heads+0.5, 120, paste0("평균 = ", round(mean_heads,2)), col = "blue"
 
 # 0~10 앞면이 나올 확률 계산
 table(results)/n
-```
-### Correlation and Scatter Plot in R
-
-#### 학번 : 22410439 / 이름 : 박동희
-
-두 개의 변수 데이터를 생성한 뒤, 상관계수를 계산하고 산점도를 통해 관계를 시각적으로 확인하는 예제이다.
-
-```{r}
-x <- rnorm(100)
-y <- 2*x + rnorm(100)
-```
-
-```{r}
-cor(x,y)
-
-plot(x,y)
 ```
 
 ### 정렬 알고리즘
@@ -133,13 +140,33 @@ selection_sort(vec2)
 
 ```
 
+### 콜라츠 추측 수열 생성
+
+#### 학번 : 22410369 / 이름 : 정경민
+
+임의의 자연수 n을 입력받아, 홀수면 3n+1, 짝수면 n/2를 반복하여 1이 될 때까지의 수열을 생성하는 함수 코드
+
+```{r}
+collatz <- function(n) {
+  sequence <- c(n)
+  
+  while (n!=1) {
+    if (n%%2==0){
+      n <- n/2
+    } else {
+      n <- 3 * n+1
+    }
+    sequence <- c(sequence, n)
+  }
+  
+  return(sequence)
+}
 ### 1년 중의 평균 온도 그래프로 나타내기
 
 #### 학번 : 22210631   / 이름 : 김경우
 
 1년 중의 평균 온도에 대한 그래프 그리는 예제
 
-```{r}
 
 
 
@@ -156,12 +183,7 @@ data.frame(Month=months,Temperature=temp)
 
 
 plot(months,temp,col="red",xlab="Month",ylab="Temperature")
-
-
-
-
-
-
+```
 
 ### 가로 길이 변화에 따른 둘레의 변화를 그래프로 그려라.
 
@@ -182,6 +204,7 @@ perimeter <- 2 * (x + y)
 # 4. 데이터 프레임 생성
 df <- data.frame(width = x, perimeter = perimeter)
 ```
+
 ```{r}
 # 5. 시각화
 plot(df$width, df$perimeter, type = "l", col = "blue", lwd = 2,
@@ -206,10 +229,12 @@ vector_projection <- function(x, y) {
   return(proj)
 }
 ```
+
 ```{r}
 x <- c(3, 4)
 y <- c(2, 1)
 ```
+
 ```{r}
 proj <- vector_projection(x, y)
 proj
@@ -262,7 +287,8 @@ print(a)
 
 #### 학번: 22012918 / 이름: 이동욱
 
-반복문을 사용하여 원하는 숫자를 찾는 예제 
+반복문을 사용하여 원하는 숫자를 찾는 예제
+
 ```{r}
 #예시 0
 x <- c(5, 3, 8, 0, 7, 2)
@@ -298,7 +324,6 @@ is_prime <- function(n){
 is_prime(7)
 ```
 
-
 ### 자릿수의 합 구하기
 
 #### 학번: 22321653 / 이름: 이민지
@@ -333,3 +358,699 @@ z_score <- function(x) {
 z_score(x)
 ```
 
+### 행렬의 역행렬과 행렬식 대각선합 계산
+
+#### 학번: 22410407 / 이름: 안유진
+
+4\*4 행렬을 생성한 뒤, 행렬식(determinant)과 역행렬(inverse matrix)을 계산하고 주대각선과 부대각선의 합을 각각 계산하는 예제
+
+```{r}
+# 4x4 행렬 생성
+M <- matrix(c(2, 1, 3, 4,
+              0, 1, 5, 2,
+              1, 6, 2, 3,
+              4, 1, 0, 1), nrow = 4, byrow = TRUE)
+
+# 행렬식 계산
+det_M <- det(M)
+
+# 역행렬 계산
+inv_M <- solve(M)
+
+# 주대각선 합
+diag_sum <- sum(diag(M))
+
+# 부대각선 합
+anti_diag_sum <- sum(diag(M[, ncol(M):1]))
+
+# 결과 출력
+det_M
+inv_M
+diag_sum
+anti_diag_sum
+```
+
+### 회귀분석
+
+#### 학번:22410429 / 이름:우재현
+
+선형회귀모형을 적합하여 계수를 확인하고 해당 회귀평면을 그래프 위에 추가하는 예제
+
+```{r}
+if (!requireNamespace("scatterplot3d", quietly = TRUE)) {
+  install.packages("scatterplot3d")
+}   # scatterplot3d 패키지 설치
+library(scatterplot3d)              # 3D 산점도 함수 불러오기
+x = c(3.0, 6.0, 3.0, 6.0)          
+u = c(10.0, 10.0, 20.0, 20.0)      
+y = c(4.65, 5.9, 6.7, 8.02)        
+scatterplot3d(x, u, y, xlim = 2:7, ylim = 7:23, zlim = 0:10, pch = 20, type = 'h')  # 3D 막대형 산점도 생성
+m = lm(y ~ x + u)                  
+coef(m)                            # 회귀모형의 계수 출력
+s = scatterplot3d(x, u, y, xlim = 2:7, ylim = 7:23, zlim = 0:10, pch = 20, type = 'h')  # 3D 산점도 객체 저장
+s$plane3d(m)                       # 회귀모형을 3D 평면으로 그래프에 추가
+```
+
+### 학교 출결 및 과제 제출 확인
+
+#### 학번:22410423 / 이름: 이가빈
+
+출석률 80프로 이상 넘고 과제 제출 완료해야 시험 응시 가능
+
+```{r}
+attendance <- 75   # 출석률 (%)
+assignment_done <- TRUE  # 과제 제출 여부
+
+if (attendance >= 80 & assignment_done) {
+  print("시험 응시 가능")
+} else if (attendance >= 80 & !assignment_done) {
+  print("과제 미제출로 시험 응시 불가")
+} else if (attendance < 80 & assignment_done) {
+  print("출석률 부족으로 시험 응시 불가")
+} else {
+  print("출석률과 과제 모두 부족하여 시험 응시 불가")
+}
+x <- c(10, 20, 30, 40, 50)
+
+z_score <- function(x) {
+  (x - mean(x)) / sd(x)
+}
+
+z_score(x)
+```
+
+### 최대/최소 점수 추출하기
+
+#### 학번: 22410413 / 이름: 이나연
+
+데이터 벡터의 최대/최소를 추출하는 코드
+
+```{r}
+scores <- data.frame(
+  name = c("A", "B", "C"),
+  midterm = c(85,92,78),
+  final = c(90, 88 ,82)
+)
+
+scores$best_score <- pmax(scores$midterm, scores$final) #두시험 중 더 높은 점수 추출
+
+scores$worst_score <- pmin(scores$midterm, scores$final) # 두시험 중 더 낮은 점수 추출
+
+print(scores)
+
+```
+
+### 두 벡터의 내적을 계산하고, 각 벡터의 길이를 구하기
+
+#### 학번: 22310391 / 이름: 조승연
+
+두 벡터의 내적을 기본 연산을 이용하여 계산
+
+```{r}
+x <- c(1, 2, 3)
+y <- c(4, 5, 6)
+
+dot_product <- sum(x * y)
+dot_product
+
+norm_x <- sqrt(sum(x^2))
+norm_y <- sqrt(sum(y^2))
+
+norm_x
+norm_y
+```
+
+### 짝수/홀수 판별
+
+#### 학번: 22310424 / 이름: 김소정
+
+if 문을 사용해 짝수/홀수를 판별하는 함수를 만드는 예제
+
+```{r}
+check_even <- function(x){
+  if(x%%2 == 0){
+    cat(x,": 짝수입니다.\n")
+  }else{
+    cat(x,": 홀수입니다.\n")
+  }
+}
+
+check_even(6)
+check_even(11)
+
+```
+
+### 0의 개수 세기
+
+#### 학번 : 22410445 이름 : 정예원
+
+숫자 벡터에서 값이 0인 원소의 개수를 세는 예제
+
+```{r}
+count_zero <- function(x) {
+  count <- 0
+  
+  for (i in 1:length(x)) {
+    if (x[i] == 0) {
+      count <- count + 1
+    }
+  }
+  
+  return(count)
+}
+
+count_zero(c(0, 1, 2, 0, 3, 0, 0, 4))
+```
+
+### 구구단
+
+#### 학번: 22210641 이름: 김민석
+
+```{r}
+for (i in 2:9) {
+  for (j in 1:9) {
+    cat(i, "x", j, "=", i * j, "\n")
+  }
+  cat("\n") 
+}
+```
+
+### for문을 활용해 무작위로 점수 4개를 받아 성적이 높은 순서대로 등수 나타내기
+
+#### 학번 : 22210624 류현길
+
+```{r}
+set.seed(123) 
+scores <- sample(50:100, 4, replace = TRUE) 
+
+sorted_scores <- sort(scores, decreasing = TRUE)
+
+ranks <- rank(-scores)
+
+cat("무작위 점수:", scores, "\n")
+cat("내림차순으로 정렬된 점수:", sorted_scores, "\n")
+cat("각 점수의 순위:", ranks, "\n")
+```
+
+### 로또번호 6개 추출
+
+#### 학번 : 22210632 / 이름 : 김민재
+
+1\~45까지의 번호중에 로또번호 6개를 추출하는 예제
+
+```{r}
+lotto_numbers <- sample(1:45, 6, replace = FALSE)
+lotto_numbers <- sort(lotto_numbers)
+print(paste("이번 주 로또 번호:", paste(lotto_numbers, collapse=", ")))
+```
+
+### 행렬 연산 예제 만들기기
+
+#### 학번 : 22410443 이름 : 서지유
+
+2x2 행렬을 생성하고 덧셈 및 곱셈 수행하는 예제
+
+```{r}
+# 2x2 행렬 생성
+matrix1 <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+matrix2 <- matrix(c(5, 6, 7, 8), nrow = 2, ncol = 2)
+
+# 행렬 덧셈
+sum_matrix <- matrix1 + matrix2
+
+# 행렬 곱셈
+product_matrix <- matrix1 %*% matrix2
+
+print("행렬 덧셈 결과:")
+print(sum_matrix)
+
+print("행렬 곱셈 결과:")
+print(product_matrix)
+```
+
+### 기하분포 시뮬레이션
+
+#### 학번: 22310363 / 이름: 조혜정
+
+성공 확률이 p=0.3인 시행을 반복하면서 처음 성공이 나올 때까지 걸리는 횟수를 while문으로 시뮬레이션하고 이를 1000번 반복하여 기하분포를 따르는 시행 횟수의 평균과 분포를 히스토그램으로 확인하는 문제
+
+```{r}
+p <- 0.3
+trial <- numeric(1000)
+
+for(i in 1:1000){
+  count <- 0
+  
+  while(TRUE){
+    count <- count + 1
+    if(runif(1) < p){
+      break
+    }
+  }
+  
+  trial[i] <- count
+}
+
+mean(trial)
+hist(trial)
+```
+
+### 기초통계량 함수
+
+#### 학번 : 22410412 이름 : 윤초원
+
+데이터를 입력하면 기초통계량 값을 계산해주는 함수 예제
+
+```{r}
+summary <- function(data) {
+  
+    Mean <-  mean(data)
+    Median <-  median(data)
+    Std <-  sd(data)
+    Count <-  length(data)
+  
+  cat("계산결과\n")
+  cat("평균은 ", Mean, "입니다.\n")
+  cat("중앙값은 ", Median, "입니다.\n")
+  cat("표준편차는 ", Std, "입니다.\n")
+  cat("자료의 갯수는", Count, "입니다.\n")
+}
+
+my_data <-  c(10,20,30,40,50,60,70,80,90,100)
+
+summary(my_data)
+```
+
+### 확률보행과정(random walk process) 시각화
+
+#### 학번: 22212734 / 이름: 박시현
+
+시계열 데이터의 대표적인 확률과정 중 하나인 확률보행과정(random walk process)을 R 프로그래밍을 통해 시각화
+
+```{r}
+# Zt=Zt-1+e
+
+rm(Z) # 초기화
+
+t <- 500 
+
+Z <- numeric(501) # 빈 벡터 생성
+Z[1] <- 0 # z0 = 0
+
+for (i in 2:(t+1)) {
+  e <- rnorm(1, mean=0, sd=1) # 난수 생성
+  Z[i] <- Z[i-1] + e # Zt=Zt-1+e
+}
+
+# 시각화
+plot(Z,
+     type='l', col="black",
+     main='random walk porcess',
+     xlab='time', ylab='Zt')
+```
+
+###그룹별 선형 회귀 분석 및 시각화 파이프라인
+
+####학번:22410435 / 이름:김은정
+
+변속기별로 나눠 선형 회귀 분석을 수행하고 결과를 시각화하는 코드
+
+```{r}
+library(tidyverse)
+data("mtcars")
+
+model_result <- mtcars %>%
+  mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
+  group_by(am) %>%
+  nest() %>%
+  mutate(
+    model = map(data, ~ lm(mpg ~ wt + hp, data = .x)),
+    summary = map(model, broom::tidy)
+  ) %>%
+  unnest(summary)
+
+print(model_result)
+
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(am))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Weight vs MPG with Linear Model",
+    color = "Transmission"
+  ) +
+  theme_minimal()
+```
+
+### 대출 상환금 계산
+
+#### 학번: 22410408 이름: 박나은
+
+```{r}
+loan <- 10000000   # 대출금
+rate <- 0.04       # 연이율
+n <- 12 * 5        # 5년 (개월)
+
+monthly_rate <- rate / 12
+
+payment <- loan * monthly_rate / (1 - (1 + monthly_rate)^(-n))
+
+cat("월 상환금:", round(payment), "\n")
+###다중회귀분석에서 설명변수별 관계 시각화 (2차원 분해 접근)
+
+#### 학번:22410433 / 이름:이도훈
+
+```
+
+### 결측지를 제외한 중앙값 구하기
+
+#### 학번:22410451 / 이름:손민정
+
+데이터에 포함된 결측값을 제거하고 순수하게 존재하는 숫자들의 중앙값을 계산하는 코드
+
+```{r}
+
+val_na <- c(10,20,NA,40,50,NA,100) # NA가 포함된 백터 생성성
+
+median(val_na, na.rm=TRUE) # 결측지를 제거하고 중앙값 계산
+
+다중회귀를 2차원으로 분해하여 변수 간 관계를 시각적으로 해석한 코드
+d <- expand.grid(x = c(3,6), u = c(10,20))
+d$y <- c(4.65, 5.90, 6.70, 8.02)
+fit <- lm(y ~ x + u, data = d)
+coef(fit)
+plot(d$u, d$y, col = as.factor(d$x), pch = 19,
+     xlab = "u", ylab = "y")
+abline(lm(y ~ u, data = d[d$x == 3, ]), col = 1)
+abline(lm(y ~ u, data = d[d$x == 6, ]), col = 2)
+```
+
+### 결측값, 이상값 처리
+
+#### 학번 : 22310419 / 이름 : 임경진
+
+결측값(NA)은 평균을 이상값은 IQR을 이용하여 값을 처리
+
+```{r}
+x <- c(15.5,0,21,18.6,NA,35,19.4,NA,17.1)
+
+#결측값 처리
+is.na(x)
+x_mean <- mean(x, na.rm = TRUE)
+x <- ifelse(is.na(x), x_mean, x)
+x
+#이상값 처리
+Q1 <- quantile(x, 0.25)
+Q3 <- quantile(x, 0.75)
+IQR <- Q3 - Q1
+
+lower <- Q1 - 1.5 * IQR
+upper <- Q3 + 1.5 * IQR
+
+x_clean <- x[x >= lower & x <= upper]
+x_clean
+```
+
+### 반복문을 이용한 구구단 출력력
+
+#### 학번 : 22210637 / 이름 : 황엘림
+
+```{r}
+dan <- 8
+
+cat("---", dan, "단 출력 ---\n")
+
+for (i in 1:9) {
+  result <- dan * i
+  cat(dan, "x", i, "=", result, "\n")
+}
+
+
+
+### 0보다 큰 값의 개수, 합
+
+#### 학번 : 22410420 / 이름 : 박민선
+
+x <- c(-2, 5, 8, 2, 0, -1, 3, 5)
+
+count <- 0
+sum_x <- 0
+
+for (i in x){
+  if (i > 0){
+    count <- count + 1
+    sum_x  <- sum_x + i
+  }
+}
+ 
+cat("0보다 큰 값의 개수:", count, "\n")
+cat("0보다 큰 값의 합:", sum_x)
+```
+
+### 내 예제: 숫자 짝수/홀수 구분
+
+#### 학번: 22410437 / 이름: 변기령
+
+1부터 20까지 숫자를 짝수/홀수로 나누는 예제입니다.
+
+```{r}
+x <- 1:20
+even <- x[x %% 2 == 0]
+odd <- x[x %% 2 != 0]
+
+even
+odd
+### 연 소득에 따라 세율이 달라질 때, 최종 세금 계산
+#### 학번: 22312516 / 이름: 정지현
+calculate_tax <- function(x){
+  if(x <= 3000) {
+    tax <- x * 0.05
+  } else {
+    tax <- (3000 * 0.05)+((x-3000)*0.15)
+  }
+  return(tax)
+}
+
+calculate_tax(5000)
+```
+
+### 건강검진 데이터 분석
+
+#### 학번 : 22410438 / 이름 : 김서은
+
+건강검진 데이터 분석
+
+```{r}
+names <- c("홍길동", "김영희", "이철수", "박민수", "최지은")
+height <- c(170, 162, 180, 175, 160)
+weight <- c(74, 60, 85, 70, 55)
+cholesterol <- c(190, 180, 210, 195, 170)
+bmi <- weight / (height/100)^2 #bmi
+
+#건강 위험 대상 출력
+for (i in 1:length(names)) {
+  if (bmi[i] >= 25 | cholesterol[i] >= 200) {
+    cat(names[i], ": 위험군 (BMI =", round(bmi[i],2),
+        ", 콜레스테롤 =", cholesterol[i], ")\n")
+  }
+}
+```
+
+### 누적합 함수
+
+#### 학번 : 22410449 / 이름: 김예빈
+
+길이가 n인 숫자가 주어졌을 때, 각 원소까지의 누적곱을 계산하는 함수
+
+```{r}
+a <- function(x){
+  n <- length(x)
+  result <- numeric(n)
+  result[1] <- x[1]
+  for(i in 2:n){
+    result[i] <- result[i-1]*x[i]
+  }
+  return(result)
+}
+```
+
+### 카페 하루 매출 시뮬레이션 및 분석
+
+#### 학번: 22410442 / 이름: 이세현
+
+하루 동안 카페에서 발생한 주문을 가정하여 매출 데이터를 생성하고, 총 매출과 시간대별 매출을 분석
+
+```{r}
+set.seed(123)
+customers <- 100 
+sales <- sample(seq(3000, 15000, by=500), customers, replace=TRUE)
+time <- sample(c("아침", "점심", "저녁"), customers, replace=TRUE)
+df <- data.frame(time, sales)
+total_sales <- sum(df$sales)
+total_sales
+tapply(df$sales, df$time, mean)
+tapply(df$sales, df$time, sum)
+boxplot(sales ~ time, data=df,
+        main="시간대별 매출 분포",
+        col=c("lightblue","lightgreen","lightpink"))
+```
+
+###일주일 공부 평균시간
+
+###학번:22410446 / 이름 : 이시진
+
+```{r}
+study_hours <- c(3, 5, 2, 6, 3.5, 1, 8)
+average_hours <-mean(study_hours)
+cat("공부 평균 시간은", average_hours, "입니다")
+```
+
+### 표본 크기에 따른 평균의 변화 확인
+
+#### 학번: 22210611 / 이름: 최윤석
+
+큰 모집단을 직접 생성한 뒤, 표본의 크기가 증가함에 따라 평균이 어떻게 안정되는지 확인하는 예제.
+
+```{r}
+population <- c(
+  12, 45, 3, 27, 18, 50, 7, 34, 21, 9,
+  41, 2, 38, 16, 29, 5, 47, 23, 11, 36,
+  8, 44, 19, 31, 6, 40, 14, 28, 1, 33,
+  25, 48, 10, 37, 22, 4, 42, 17, 30, 13,
+  46, 24, 35, 15, 39, 20, 49, 26, 32, 43,
+  7, 18, 29, 3, 41, 12, 50, 21, 8, 34,
+  16, 45, 2, 27, 38, 9, 23, 47, 5, 36,
+  44, 11, 31, 6, 40, 14, 28, 1, 33, 25,
+  48, 10, 37, 22, 4, 42, 17, 30, 13, 46,
+  24, 35, 15, 39, 20, 49, 26, 32, 43, 19
+)   #모집단
+n <- c(5, 10, 25, 50, 75, 100)   #표본 크기
+means <- c()   #평균 저장 벡터
+
+
+for(i in 1:length(n)){
+  sample_data <- sample(population, n[i])
+  means[i] <- sum(sample_data) / n[i]
+}
+
+
+n   #표본 크기
+means   #각 표본 크기에 따른 평균
+sum(population) / length(population)   #모평균
+
+
+#그래프
+plot(n, means, type = "b",
+     xlab = " 표본크기(n)",
+     ylab = "표본평균(means)",
+     main = "표본 크기에 따른 평균의 변화")   
+main
+```
+
+### 학생 점수의 평균 대비 편차 분석
+
+#### 학번: 22410414 / 이름: 김시은
+
+```{r}
+# 랜덤 결과를 고정하여 재현가능하게 함
+set.seed(123)
+
+# 학생 점수 생성
+score <- sample(0:100, 20, replace = TRUE)
+
+# 전체 평균
+avg <- mean(score)
+
+# 각 점수의 편차
+dev <- score - avg
+
+# 평균 기준 분류
+above <- score[score >= avg]
+below <- score[score < avg]
+
+# 개수
+n_above <- length(above)
+n_below <- length(below)
+
+# 결과 출력
+score
+avg
+dev
+above
+below
+n_above
+n_below
+```
+
+### 1부터 100 사이의 3의 배수 찾기
+
+#### 학번 : 22410417 / 이름 : 여지원
+
+1부터 100까지의 숫자 중에서 3으로 나누었을 때 나머지가 0인 숫자(3의 배수)를 for문과 if문을 사용해 찾아내고, 전체 개수가 몇 개인지 계산하는 예제입니다.
+
+```{r}
+# 1. 1부터 100까지의 숫자 벡터 생성
+numbers <- 1:100
+count <- 0
+
+# 2. 반복문으로 3의 배수만 출력하고 개수 세기
+cat("찾은 3의 배수:\n")
+for (i in numbers) {
+  if (i %% 3 == 0) {
+    cat(i, " ")
+    count <- count + 1
+  }
+}
+
+# 3. 결과 출력
+cat("\n\n결과: 1부터 100 사이의 3의 배수는 총", count, "개입니다.")
+### bmi 계산 문제
+
+#### 학번: 22210644 / 이름: 최시원
+
+weight <- 70
+height <- 1.75
+my_bmi <- weight / height^2
+
+if (my_bmi >= 23) {
+  print("Overweight")
+} else {
+  print("Normal")
+}
+```
+
+### 주사위 두 개를 던졌을 때 합의 분포 시뮬레이션
+
+#### 학번: 22110672 / 이름: 최민수
+
+주사위 두 개를 1000번 던져 합의 분포를 히스토그램으로 확인하고, 가장 많이 나온 합과 평균을 계산하는 예제
+
+```{r}
+set.seed(42)
+rolls <- replicate(1000, sum(sample(1:6, 2, replace = TRUE)))
+
+hist(rolls, breaks = 10, col = "lightblue",
+     main = "주사위 두 개 합의 분포",
+     xlab = "합", ylab = "빈도")
+
+cat("평균:", mean(rolls), "\n")
+cat("가장 많이 나온 합:", as.integer(names(which.max(table(rolls)))), "\n")
+```
+
+### 구구단 2단 출력하기
+
+#### 학번: 22413356 / 이름: 김시현
+
+repeat 함수를 이용하여 구구단 2단을 출력하는 예제를 만들었습니다.
+
+```{r}
+i=0
+
+repeat{
+  
+  i=i+1
+  
+  cat('2*',i ,'=', 2*i,'\n')
+  
+  if(i>=9)break
+}
+```
